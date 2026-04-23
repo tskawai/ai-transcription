@@ -1,0 +1,20 @@
+[package]
+name = "ai-transcription"
+version = "0.1.0"
+edition = "2021"
+description = "動画・音声の文字起こし CLI（whisper.cpp / whisper-rs）"
+license = "MIT"
+readme = "README.md"
+
+[dependencies]
+anyhow = "1"
+clap = { version = "4", features = ["derive"] }
+hound = "3.5"
+tempfile = "3"
+whisper-rs = { version = "0.16" }
+
+# オプション: CPU で BLAS 高速化（環境に libopenblas 等がある場合）
+# whisper-rs = { version = "0.16", features = ["openblas"] }
+
+[profile.release]
+lto = true
