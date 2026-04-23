@@ -71,6 +71,13 @@ WHISPER_BIN=/path/to/ai-transcription ./scripts/transcribe-ja.sh ./foo.m4a
 
 補助スクリプトの既定モデルは `whisper.cpp/models/ggml-large-v3-turbo.bin`（未配置ならエラーで終了。`bash whisper.cpp/models/download-ggml-model.sh large-v3-turbo` 等で取得できます）。
 
+## GitHub への push と大容量ファイル
+
+GitHub は **単一ファイル 100MB 超**を拒否します（[公式ドキュメント](https://docs.github.com/repositories/working-with-files/managing-large-files/about-large-files-on-github)）。動画（`.mp4` 等）や長時間の `.m4a` をコミットに含めると push が失敗します。
+
+- 本リポジトリの `.gitignore` では、誤コミット防止のため **`*.mp4` / `*.m4a` / `*.mov` / `*.mkv`** を追跡対象外にしています。共有したい場合は [Git LFS](https://git-lfs.github.com/) の利用や、別ストレージ・リンクでの配布を検討してください。
+- すでに履歴に含めてしまった場合は、`git filter-branch` や [git-filter-repo](https://github.com/newren/git-filter-repo) で該当ファイルを履歴から除去してから再度 push します（リモート未反映の履歴なら書き換えて問題ありません）。
+
 ## 仕様の詳細
 
 [SPECIFICATION.md](./SPECIFICATION.md) を参照してください。

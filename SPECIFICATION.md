@@ -53,6 +53,11 @@
 |----------|------|
 | `scripts/transcribe-ja.sh` | 第1引数のメディアを `transcribe` し、**入力と同一ディレクトリ**に `<ベース名>.txt` を出力する。`--language` はスクリプト先頭の `_languageCode`（既定 `ja`）。モデル既定ファイル名は `_defaultModelBasename`（既定 `ggml-large-v3-turbo.bin`）。`WHISPER_MODEL` / `WHISPER_BIN` で上書き可。 |
 
+## 9. リポジトリ方針（メディアファイル）
+
+- 本プロジェクトのソース管理対象は **CLI・スクリプト・仕様書** とする。入力用の動画・音声はローカルに置き、原則 **Git にコミットしない**（`.gitignore` で `*.mp4` 等を除外）。
+- GitHub は単一ファイル **100MB 超**を受け付けないため、誤ってコミットした場合は履歴から除去する必要がある（手順は [README.md](./README.md) の「GitHub への push と大容量ファイル」を参照）。
+
 ---
 
 - [x] 初版: transcribe サブコマンド、FFmpeg フォールバック、README 連携
