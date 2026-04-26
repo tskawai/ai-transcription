@@ -12,8 +12,8 @@
 #
 # 制限事項:
 #   - 本スクリプトは bash 上で動作する。リポジトリルートはスクリプトの親ディレクトリから推定する。
-#   - 参照するモデルが無い場合、パスが ggml-*.bin 形式で、かつ同ディレクトリに
-#     whisper.cpp の download-ggml-model.sh があるときは自動取得を試みる。それ以外は手動配置が必要。
+#   - 参照するモデルが無い場合、パスが ggml-*.bin 形式ならリポジトリ同梱の
+#     whisper.cpp/models/download-ggml-model.sh で自動取得を試みる。リポに当該スクリプトが無い場合は手動配置が必要。
 #   - 自動取得には curl / wget / wget2 のいずれかが必要（download-ggml-model.sh に準拠）。
 
 set -euo pipefail
@@ -64,7 +64,8 @@ _repo_root="$(cd "${_script_dir}/.." && pwd)"
 _bin="${WHISPER_BIN:-${_repo_root}/${_binaryRelToRepoRoot}}"
 _model="${WHISPER_MODEL:-${_repo_root}/whisper.cpp/models/${_defaultModelBasename}}"
 
-# 指定パスの ggml モデルが無いとき、ファイル名（ggml-<id>.bin）に対応する ID で download-ggml-model.sh を実行する。
+# 指定パスの ggml モデルが無いとき、リポジトリ同梱の download-ggml-model.sh で
+# ファイル名（ggml-<id>.bin）に対応する ID を取得する。保存先は常に <モデルパス> の親ディレクトリ。
 _ensureGgmlModel() {
   local _path="$1"
   if [ -f "${_path}" ]; then
@@ -86,13 +87,14 @@ _ensureGgmlModel() {
       ;;
   esac
   _dir="$(dirname "${_path}")"
-  _dl="${_dir}/download-ggml-model.sh"
+  _dl="${_repo_root}/whisper.cpp/models/download-ggml-model.sh"
   if [ ! -f "${_dl}" ]; then
     printf 'エラー: モデルファイルがありません: %s\n' "${_path}" >&2
-    printf '自動取得には同じディレクトリに download-ggml-model.sh が必要です（%s）\n' "${_dl}" >&2
-    printf '手動: bash whisper.cpp/models/download-ggml-model.sh %s\n' "${_id}" >&2
+    printf '自動取得用スクリプトが見つかりません: %s\n' "${_dl}" >&2
+    printf 'whisper.cpp を取得（サブモジュール含む）するか、手動: bash .../whisper.cpp/models/download-ggml-model.sh %s\n' "${_id}" >&2
     return 1
   fi
+  mkdir -p "${_dir}"
   printf 'モデルが見つかりません。自動ダウンロードします（モデル ID: %s）...\n' "${_id}" >&2
   if ! bash "${_dl}" "${_id}" "${_dir}"; then
     printf 'エラー: モデルの自動ダウンロードに失敗しました: %s\n' "${_path}" >&2

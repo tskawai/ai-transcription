@@ -51,7 +51,7 @@
 
 | ファイル | 内容 |
 |----------|------|
-| `scripts/transcribe-ja.sh` | 第1引数以降の**各**メディアを順に `transcribe` し、**それぞれ入力と同一ディレクトリ**に `<ベース名>.txt` を出力する（例: `./scripts/transcribe-ja.sh ./*.m4a`）。1件失敗しても次へ進み、**全件終了後に1件以上失敗があれば**非ゼロで終了。`--language` はスクリプト先頭の `_languageCode`（既定 `ja`）。モデル既定ファイル名は `_defaultModelBasename`（例: `ggml-medium.bin`、スクリプト内で変更可）。参照先の `ggml-*.bin` が無く、同ディレクトリに `download-ggml-model.sh` がある場合は**自動取得**を試みる。`WHISPER_MODEL` / `WHISPER_BIN` で上書き可。 |
+| `scripts/transcribe-ja.sh` | 第1引数以降の**各**メディアを順に `transcribe` し、**それぞれ入力と同一ディレクトリ**に `<ベース名>.txt` を出力する（例: `./scripts/transcribe-ja.sh ./*.m4a`）。1件失敗しても次へ進み、**全件終了後に1件以上失敗があれば**非ゼロで終了。`--language` はスクリプト先頭の `_languageCode`（既定 `ja`）。モデル既定ファイル名は `_defaultModelBasename`（例: `ggml-medium.bin`、スクリプト内で変更可）。参照先の `ggml-*.bin` が無い場合、**リポジトリ同梱**の `whisper.cpp/models/download-ggml-model.sh` を実行して、**モデルパスの親ディレクトリ**へ取得を試みる（`WHISPER_MODEL` で任意ディレクトリの `ggml-*.bin` を指定可能）。`WHISPER_MODEL` / `WHISPER_BIN` で上書き可。 |
 
 ## 9. リポジトリ方針（メディアファイル）
 

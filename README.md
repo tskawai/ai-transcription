@@ -74,7 +74,7 @@ WHISPER_BIN=/path/to/ai-transcription ./scripts/transcribe-ja.sh ./foo.m4a
 
 複数ファイルを渡した場合は**順に**処理し、**1件失敗しても次のファイルに進みます**。**すべて終わったあと、1件以上失敗があれば**終了コード 1 になります。マッチが0件のとき `./*.m4a` はシェル設定によっては文字列のまま渡ることがあるため、その場合は「ファイルが存在しません」で失敗扱いになります（その後の引数があれば続行）。
 
-補助スクリプトの既定モデルはスクリプト内の `_defaultModelBasename`（例: `whisper.cpp/models/ggml-medium.bin`）。**ファイルが無い場合**、パスが `ggml-*.bin` 形式で、かつ同じディレクトリに `download-ggml-model.sh` があるとき、**ファイル名から推測したモデル ID**（例: `ggml-medium.bin` → `medium`）で自動取得を試みます（`curl` / `wget` / `wget2` のいずれかが必要）。任意名の `.bin` や、取得スクリプトと別ディレクトリに置く場合は手動で配置するか `WHISPER_MODEL` で既存ファイルを指定してください。
+補助スクリプトの既定モデルはスクリプト内の `_defaultModelBasename`（例: `whisper.cpp/models/ggml-medium.bin`）。**ファイルが無い場合**、参照パスが `ggml-*.bin` 形式なら、**リポジトリ内**の `whisper.cpp/models/download-ggml-model.sh` を用い、**モデルを置くディレクトリ**（`WHISPER_MODEL` の親ディレクトリ、未設定なら上記 `models/`）へ自動取得を試みます。取得には `curl` / `wget` / `wget2` のいずれかが必要です。`download-ggml-model.sh` 自体が無い（サブモジュール未取得など）場合は、リポを揃えたうえで手動取得するか、既存の `.bin` を `WHISPER_MODEL` に指定してください。
 
 ## GitHub への push と大容量ファイル
 
