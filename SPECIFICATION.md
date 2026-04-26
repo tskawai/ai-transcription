@@ -51,7 +51,7 @@
 
 | ファイル | 内容 |
 |----------|------|
-| `scripts/transcribe-ja.sh` | 第1引数のメディアを `transcribe` し、**入力と同一ディレクトリ**に `<ベース名>.txt` を出力する。`--language` はスクリプト先頭の `_languageCode`（既定 `ja`）。モデル既定ファイル名は `_defaultModelBasename`（既定 `ggml-large-v3-turbo.bin`）。`WHISPER_MODEL` / `WHISPER_BIN` で上書き可。 |
+| `scripts/transcribe-ja.sh` | 第1引数以降の**各**メディアを順に `transcribe` し、**それぞれ入力と同一ディレクトリ**に `<ベース名>.txt` を出力する（例: `./scripts/transcribe-ja.sh ./*.m4a`）。1件失敗しても次へ進み、**全件終了後に1件以上失敗があれば**非ゼロで終了。`--language` はスクリプト先頭の `_languageCode`（既定 `ja`）。モデル既定ファイル名は `_defaultModelBasename`（例: `ggml-medium.bin`、スクリプト内で変更可）。参照先の `ggml-*.bin` が無く、同ディレクトリに `download-ggml-model.sh` がある場合は**自動取得**を試みる。`WHISPER_MODEL` / `WHISPER_BIN` で上書き可。 |
 
 ## 9. リポジトリ方針（メディアファイル）
 
@@ -62,3 +62,5 @@
 
 - [x] 初版: transcribe サブコマンド、FFmpeg フォールバック、README 連携
 - [x] `scripts/transcribe-ja.sh`: 先頭設定ブロックで表示名・モデル・言語など変更可・出力パス自動
+- [x] `scripts/transcribe-ja.sh`: 複数入力（例 `./*.m4a`）を順に処理・個別失敗時も次へ・最後に集計終了
+- [x] `scripts/transcribe-ja.sh`: 既定 `ggml-*.bin` 未配置時に download-ggml-model.sh による自動取得

@@ -64,12 +64,17 @@ cargo build --release
 ./scripts/transcribe-ja.sh ファイル名.m4a
 # → ファイル名と同じディレクトリに ファイル名.txt
 
+# カレントディレクトリのすべての .m4a（シェルがパスに展開してから渡す）
+./scripts/transcribe-ja.sh ./*.m4a
+
 # モデルや実行ファイルのパスを変えたい場合
 WHISPER_MODEL=/path/to/ggml-small.bin ./scripts/transcribe-ja.sh ./foo.m4a
 WHISPER_BIN=/path/to/ai-transcription ./scripts/transcribe-ja.sh ./foo.m4a
 ```
 
-補助スクリプトの既定モデルは `whisper.cpp/models/ggml-large-v3-turbo.bin`（未配置ならエラーで終了。`bash whisper.cpp/models/download-ggml-model.sh large-v3-turbo` 等で取得できます）。
+複数ファイルを渡した場合は**順に**処理し、**1件失敗しても次のファイルに進みます**。**すべて終わったあと、1件以上失敗があれば**終了コード 1 になります。マッチが0件のとき `./*.m4a` はシェル設定によっては文字列のまま渡ることがあるため、その場合は「ファイルが存在しません」で失敗扱いになります（その後の引数があれば続行）。
+
+補助スクリプトの既定モデルはスクリプト内の `_defaultModelBasename`（例: `whisper.cpp/models/ggml-medium.bin`）。**ファイルが無い場合**、パスが `ggml-*.bin` 形式で、かつ同じディレクトリに `download-ggml-model.sh` があるとき、**ファイル名から推測したモデル ID**（例: `ggml-medium.bin` → `medium`）で自動取得を試みます（`curl` / `wget` / `wget2` のいずれかが必要）。任意名の `.bin` や、取得スクリプトと別ディレクトリに置く場合は手動で配置するか `WHISPER_MODEL` で既存ファイルを指定してください。
 
 ## GitHub への push と大容量ファイル
 
