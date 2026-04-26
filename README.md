@@ -2,6 +2,12 @@
 
 [whisper.cpp](https://github.com/ggml-org/whisper.cpp)（Rust バインディング: [whisper-rs](https://codeberg.org/tazz4843/whisper-rs)）を用いて、**動画・音声ファイルを文字起こし**するコマンドラインツールです。
 
+`whisper.cpp` は **Git サブモジュール**として参照しています。`download-ggml-model.sh` や補助スクリプトの自動取得に使う場合、clone 後に次を実行してください。
+
+```bash
+git submodule update --init --recursive
+```
+
 ## 必要なもの
 
 - **Rust**（2021 エディション、stable 想定）

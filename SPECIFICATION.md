@@ -53,6 +53,8 @@
 |----------|------|
 | `scripts/transcribe-ja.sh` | 第1引数以降の**各**メディアを順に `transcribe` し、**それぞれ入力と同一ディレクトリ**に `<ベース名>.txt` を出力する（例: `./scripts/transcribe-ja.sh ./*.m4a`）。1件失敗しても次へ進み、**全件終了後に1件以上失敗があれば**非ゼロで終了。`--language` はスクリプト先頭の `_languageCode`（既定 `ja`）。モデル既定ファイル名は `_defaultModelBasename`（例: `ggml-medium.bin`、スクリプト内で変更可）。参照先の `ggml-*.bin` が無い場合、**リポジトリ同梱**の `whisper.cpp/models/download-ggml-model.sh` を実行して、**モデルパスの親ディレクトリ**へ取得を試みる（`WHISPER_MODEL` で任意ディレクトリの `ggml-*.bin` を指定可能）。`WHISPER_MODEL` / `WHISPER_BIN` で上書き可。 |
 
+- **whisper.cpp**: 本リポジトリ直下の `whisper.cpp` は **Git サブモジュール**（`.gitmodules` に `url` を記載する）。`git clone` 後に `git submodule update --init --recursive` で取得する。
+
 ## 9. リポジトリ方針（メディアファイル）
 
 - 本プロジェクトのソース管理対象は **CLI・スクリプト・仕様書** とする。入力用の動画・音声はローカルに置き、原則 **Git にコミットしない**（`.gitignore` で `*.mp4` 等を除外）。
